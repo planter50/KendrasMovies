@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#c95716">
+  <title>2026 Halloween Movie-Thon</title>
+  <style>
+    :root{
+      --orange:#e7651b;
+      --orange2:#b63e0e;
+      --paper:#f8f0dc;
+      --ink:#2d1c16;
+      --brown:#55251a;
+      --shadow:rgba(40,14,5,.35);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--ink);
+      font-family:"Trebuchet MS",Arial,sans-serif;
+      background:
+        radial-gradient(circle at 20% 10%,rgba(255,139,42,.20),transparent 25%),
+        radial-gradient(circle at 80% 30%,rgba(255,107,20,.13),transparent 30%),
+        linear-gradient(145deg,#160b08,#32130b 48%,#0e0705);
+    }
+    button{font:inherit}
+    .wrap{min-height:100vh;padding:28px 16px;display:flex;justify-content:center}
+    .poster{
+      width:min(980px,100%);
+      position:relative;
+      overflow:hidden;
+      border-radius:22px;
+      padding:38px clamp(18px,5vw,62px) 42px;
+      background:
+        radial-gradient(circle at 15% 18%,rgba(255,193,91,.18),transparent 20%),
+        radial-gradient(circle at 88% 72%,rgba(255,132,38,.13),transparent 28%),
+        repeating-linear-gradient(8deg,rgba(80,28,8,.035) 0 2px,transparent 2px 7px),
+        linear-gradient(135deg,#c94d12,#e56a1b 45%,#a9360d);
+      box-shadow:0 22px 65px var(--shadow),inset 0 0 0 2px rgba(255,240,195,.12);
+    }
+    .poster:before{
+      content:"";
+      position:absolute;inset:12px;
+      border:2px dashed rgba(73,25,12,.32);
+      border-radius:16px;pointer-events:none;
+    }
+    .decor{position:absolute;pointer-events:none;z-index:0}
+    .moon{width:210px;height:210px;border-radius:50%;background:rgba(255,218,148,.14);right:-55px;top:-65px}
+    .pumpkin{font-size:42px;left:50%;top:105px;transform:translateX(-50%);filter:drop-shadow(0 4px 2px rgba(60,20,0,.3))}
+    .bat{font-size:32px;opacity:.62}
+    .bat.a{left:5%;top:205px;transform:rotate(-12deg)}
+    .bat.b{right:6%;top:178px;transform:scaleX(-1) rotate(-7deg)}
+    .branch{width:210px;height:430px;bottom:-150px;background:#24100b;opacity:.23;border-radius:50% 50% 0 0}
+    .branch:before,.branch:after{content:"";position:absolute;width:25px;height:230px;background:#24100b;border-radius:20px;bottom:100px}
+    .branch:before{left:25px;transform:rotate(-38deg)}
+    .branch:after{right:24px;transform:rotate(42deg)}
+    .branch.left{left:-105px;transform:rotate(-7deg)}
+    .branch.right{right:-105px;transform:scaleX(-1) rotate(-7deg)}
+    header,.progress,.movies,footer{position:relative;z-index:2}
+    header{text-align:center;max-width:760px;margin:0 auto 22px}
+    .eyebrow{
+      margin:0 0 6px;
+      color:#fff3d4;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:4px;
+      text-transform:uppercase;
+    }
+    h1{
+      margin:0;
+      color:#fff0c9;
+      font-family:"Comic Sans MS","Trebuchet MS",cursive;
+      font-size:clamp(42px,8vw,78px);
+      line-height:.92;
+      letter-spacing:1px;
+      text-shadow:3px 4px 0 #7f2b0d,0 8px 18px rgba(62,20,5,.25);
+      transform:rotate(-1deg);
+    }
+    .subtitle{
+      margin:18px auto 0;
+      max-width:620px;
+      color:#fff4da;
+      font-weight:700;
+      font-size:15px;
+    }
+    .progress{
+      max-width:760px;margin:0 auto 26px;
+      padding:13px 15px;
+      border-radius:14px;
+      background:rgba(68,25,12,.28);
+      border:1px solid rgba(255,238,199,.22);
+      color:#fff4dc;
+    }
+    .progress-top{display:flex;justify-content:space-between;gap:10px;font-size:14px;font-weight:800;margin-bottom:8px}
+    .track{height:11px;background:rgba(30,10,4,.34);border-radius:99px;overflow:hidden}
+    .bar{height:100%;width:0;background:#ffe2a5;border-radius:99px;transition:width .25s ease}
+    .movies{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:13px 22px;
+    }
+    .movie{
+      width:100%;
+      min-height:57px;
+      display:flex;align-items:center;gap:12px;
+      border:0;
+      border-radius:3px;
+      padding:10px 14px;
+      cursor:pointer;
+      text-align:left;
+      color:var(--ink);
+      background:linear-gradient(#fff9e9,#eee5ce);
+      box-shadow:5px 5px 0 rgba(72,27,12,.35);
+      transform:rotate(-.35deg);
+      transition:transform .15s,box-shadow .15s,background .15s;
+    }
+    .movie:nth-child(even){transform:rotate(.35deg)}
+    .movie:hover{transform:translateY(-2px) rotate(-.35deg);box-shadow:7px 7px 0 rgba(72,27,12,.38)}
+    .movie:nth-child(even):hover{transform:translateY(-2px) rotate(.35deg)}
+    .movie:focus-visible{outline:3px solid #fff1bd;outline-offset:3px}
+    .check{
+      flex:0 0 29px;height:29px;
+      display:grid;place-items:center;
+      border:2px solid #8b3513;border-radius:5px;
+      color:#fff8df;background:#fff9e9;
+      font-weight:1000;font-size:20px;
+    }
+    .title{font-family:"Comic Sans MS","Trebuchet MS",cursive;font-size:18px;font-weight:900;line-height:1.05}
+    .movie.watched{background:linear-gradient(#f0d7a9,#dfc48f);text-decoration:line-through;opacity:.72}
+    .movie.watched .check{background:#8b3513;color:#fff8df}
+    footer{text-align:center;margin-top:28px}
+    #reset{
+      border:1px solid rgba(255,241,210,.35);
+      color:#fff3d6;background:rgba(54,18,8,.28);
+      border-radius:999px;padding:9px 15px;cursor:pointer;font-weight:800
+    }
+    #reset:hover{background:rgba(54,18,8,.48)}
+    .note{margin:9px 0 0;color:rgba(255,245,221,.72);font-size:12px}
+    @media(max-width:700px){
+      .wrap{padding:0}
+      .poster{border-radius:0;min-height:100vh;padding:30px 15px 34px}
+      .poster:before{inset:8px}
+      .movies{grid-template-columns:1fr;gap:12px}
+      .title{font-size:17px}
+      .pumpkin{top:112px}
+      .bat.a{top:195px}.bat.b{top:175px}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="poster">
+      <div class="decor moon"></div>
+      <div class="decor pumpkin">🎃</div>
+      <div class="decor bat a">🦇</div>
+      <div class="decor bat b">🦇</div>
+      <div class="decor branch left"></div>
+      <div class="decor branch right"></div>
+
+      <header>
+        <p class="eyebrow">October Watch List</p>
+        <h1>2026 Halloween<br>Movie-Thon</h1>
+        <p class="subtitle">Tap a movie when you finish it. Your checklist saves automatically in this browser.</p>
+      </header>
+
+      <section class="progress" aria-label="Movie marathon progress">
+        <div class="progress-top">
+          <span>Movie marathon progress</span>
+          <strong id="count">0 / 22 watched</strong>
+        </div>
+        <div class="track"><div class="bar" id="bar"></div></div>
+      </section>
+
+      <section class="movies" id="movies" aria-label="Halloween movies"></section>
+
+      <footer>
+        <button id="reset" type="button">Reset watched movies</button>
+        <p class="note">Made for GitHub Pages • No external libraries required</p>
+      </footer>
+    </section>
+  </main>
+
+<script>
+(function(){
+  "use strict";
+
+  const movies = [
+    "Hocus Pocus",
+    "Beetlejuice (1 & 2)",
+    "The Addams Family",
+    "Corpse Bride",
+    "Sleepy Hollow",
+    "Practical Magic",
+    "Halloween (1978)",
+    "Ghostbusters (1 & 2)",
+    "Addams Family Values",
+    "Hotel Transylvania",
+    "Dark Shadows",
+    "Scary Stories to Tell in the Dark",
+    "Friday the 13th",
+    "The Conjuring",
+    "Hubie Halloween",
+    "Drop",
+    "Fear Street (1 & 2)",
+    "The Exorcist",
+    "Scream",
+    "It's the Great Pumpkin, Charlie Brown",
+    "A Nightmare on Elm Street",
+    "The Evil Dead (1981)"
+  ];
+
+  const key = "halloween-movie-thon-2026-v2";
+  let watched = new Set();
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(key) || "[]");
+    if (Array.isArray(saved)) saved.forEach(function(i){
+      if (Number.isInteger(i) && i >= 0 && i < movies.length) watched.add(i);
+    });
+  } catch(e) {}
+
+  const grid = document.getElementById("movies");
+  const count = document.getElementById("count");
+  const bar = document.getElementById("bar");
+
+  function save(){
+    try { localStorage.setItem(key, JSON.stringify(Array.from(watched))); } catch(e) {}
+  }
+
+  function updateProgress(){
+    const n = watched.size;
+    count.textContent = n + " / " + movies.length + " watched";
+    bar.style.width = ((n / movies.length) * 100) + "%";
+  }
+
+  function render(){
+    grid.innerHTML = "";
+    movies.forEach(function(movie, index){
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "movie" + (watched.has(index) ? " watched" : "");
+      button.setAttribute("aria-pressed", watched.has(index) ? "true" : "false");
+      button.setAttribute("aria-label", (watched.has(index) ? "Unmark " : "Mark ") + movie + " as watched");
+
+      const check = document.createElement("span");
+      check.className = "check";
+      check.setAttribute("aria-hidden", "true");
+      check.textContent = watched.has(index) ? "✓" : "";
+
+      const title = document.createElement("span");
+      title.className = "title";
+      title.textContent = movie;
+
+      button.appendChild(check);
+      button.appendChild(title);
+
+      button.addEventListener("click", function(){
+        if (watched.has(index)) watched.delete(index);
+        else watched.add(index);
+        save();
+        render();
+        updateProgress();
+      });
+
+      grid.appendChild(button);
+    });
+  }
+
+  document.getElementById("reset").addEventListener("click", function(){
+    watched.clear();
+    save();
+    render();
+    updateProgress();
+  });
+
+  render();
+  updateProgress();
+})();
+</script>
+</body>
+</html>
